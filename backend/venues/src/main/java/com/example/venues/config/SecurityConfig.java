@@ -1,8 +1,9 @@
 package com.example.venues.config;
 
-import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+
+import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -36,6 +37,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/users/update-password/**").authenticated()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/api/users/**").authenticated() // protect all user-related endpoints
+                .requestMatchers("/api/venues/**").permitAll() 
+                
                 .anyRequest().permitAll()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  frontend:
+    build: ./eventzen-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+      - nodejs
+    environment:
+      - REACT_APP_BACKEND_URL=http://localhost:8081
+      - REACT_APP_NODEJS_URL=http://localhost:5000
+
+  backend:
+    build: ./backend/venues
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo_db:27017/eventzen
+      - NODE_SERVICE_URL=http://nodejs:5000
+    depends_on:
+      - mongodb
+      - nodejs
+
+  nodejs:
+    build: ./backend/event-services-nodejs
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://mongo_db:27017/eventzen     
+      - SPRING_SERVICE_URL=http://backend:8081
+      - JWT_SECRET=123vdksg3efgLEKGHeugHJEHaabishkhan    
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo
+    container_name: mongo_db
+    ports:
+      - "27017:27017"

@@ -27,7 +27,7 @@ const EventList = () => {
             });
 
             if (response.ok) {
-                setMessage("egistered successfully!");
+                setMessage("Registered successfully!");
             } else if (response.status === 409) {
                 setMessage("You are already registered for this event.");
             } else {
